@@ -1,78 +1,68 @@
 /**
- * @fileoverview Rollup-Plugin-Threads: ThreadsJS Rollup integration
+ * @fileoverview Threads-Webpack-Plugin: ThreadsJS Webpack integration
  */
 
 //Imports
-import {createFilter} from '@rollup/pluginutils';
-import {Plugin, OutputChunk, rollup} from 'rollup';
-import {resolve} from 'path';
-import type {Options} from './types';
+import {getOptions} from 'loader-utils';
+import {basename, dirname} from 'path';
+import {readFile, unlink} from 'fs/promises';
+import {tmpNameSync} from 'tmp';
+import webpack from 'webpack';
 
 //Export
-export default function (options: Options)
+export default async function (this: webpack.loader.LoaderContext)
 {
-  //Default options
-  options = {
-    exclude: [],
-    include: ['**/worker.js', '**/worker.ts'],
-    plugins: [],
-    ...options
-  };
+  //Generate temp file information
+  const temp = tmpNameSync();
 
-  const filter = createFilter(options.include, options.exclude);
+  //Get options
+  const options = getOptions(this);
 
-  const plugin: Plugin = {
-    name: 'threads',
-    resolveId(source)
+  //Define worker compiler
+  const compiler = webpack({
+    //Merge user-supplied options
+    ...options,
+    entry: this.resourcePath,
+    output: {
+      filename: basename(temp),
+      path: dirname(temp)
+    }
+  });
+
+  //Compile
+  try
+  {
+    //Wrap with promise (Asyncify)
+    await new Promise((resolve, reject) =>
     {
-      if (source == 'virtual-module')
+      //Compile file
+      compiler.run((err, stats) =>
       {
-        return 'virtual-module';
-      }
-      else
-      {
-        return null;
-      }
-    },
-    async load(id)
-    {
-      if (filter(id))
-      {
-        //Get file name
-        const file = resolve(id);
-
-        //Bundle worker
-        const build = await rollup({
-          input: file,
-          external: options.external,
-          plugins: options.plugins
-        });
-
-        //Get bundled worker code
-        const bundle = await build.generate({format: 'iife'});
-
-        const chunks = <OutputChunk[]>bundle.output.filter(chunk => chunk.type == 'chunk');
-
-        if (chunks == null)
+        //Handle errors
+        if (err != null)
         {
-          this.error('Did not receive worker chunks from child rollup bundler!');
-        }
-        else if (chunks.length > 1)
-        {
-          this.error('Received too many worker chunks from child rollup bundler!');
+          reject(err);
         }
         else
         {
-          //Format
-          return `export default ${JSON.stringify(chunks[0].code)}`;
+          resolve(stats);
         }
-      }
-      else
-      {
-        return null;
-      }
-    }
-  };
+      });
+    });
+  }
+  //Proxy errors
+  catch (err)
+  {
+    this.emitError(err);
+    return;
+  }
 
-  return plugin;
+  //Read file
+  const code = await readFile(temp, 'utf8');
+
+  //Delete file
+  await unlink(temp);
+
+  //Format
+  return `export default ${JSON.stringify(code)}`;
 }

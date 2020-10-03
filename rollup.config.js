@@ -8,9 +8,11 @@ import typescript from 'rollup-plugin-typescript2';
 //Export
 export default {
   external: [
-    '@rollup/pluginutils',
+    'fs/promises',
+    'loader-utils',
     'path',
-    'rollup'
+    'tmp',
+    'webpack'
   ],
   input: 'src/index.ts',
   plugins: [

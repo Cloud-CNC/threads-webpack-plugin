@@ -1,13 +1,13 @@
-# ThreadsJS Rollup integration
-[![npm](https://img.shields.io/npm/v/rollup-plugin-threads)](https://npmjs.com/package/rollup-plugin-threads)
-[![tests](https://img.shields.io/github/workflow/status/Cloud-CNC/rollup-plugin-threads/Tests?label=tests)](https://github.com/Cloud-CNC/rollup-plugin-threads/actions)
-[![last commit](https://img.shields.io/github/last-commit/Cloud-CNC/rollup-plugin-threads)](https://github.com/Cloud-CNC/rollup-plugin-threads/commits/master)
+# ThreadsJS Webpack integration
+[![npm](https://img.shields.io/npm/v/threads-webpack-plugin)](https://npmjs.com/package/threads-webpack-plugin)
+[![tests](https://img.shields.io/github/workflow/status/Cloud-CNC/threads-webpack-plugin/Tests?label=tests)](https://github.com/Cloud-CNC/threads-webpack-plugin/actions)
+[![last commit](https://img.shields.io/github/last-commit/Cloud-CNC/threads-webpack-plugin)](https://github.com/Cloud-CNC/threads-webpack-plugin/commits/master)
 
-[ThreadsJS](https://threads.js.org) integration for [Rollup](https://rollupjs.org)
+[ThreadsJS](https://threads.js.org) integration for [Webpack](https://webpack.js.org)
 
 # Features
 * Written in modern TypeScript
-* Uses Rollup for TS compilation
+* Uses Webpack for TS compilation
 * Thoroughly commented
 
 # Usage
@@ -43,11 +43,11 @@ const worker = {
 expose(worker);
 ```
 
-## Rollup Config
+## Webpack Config
 ```Javascript
 //Imports
-import resolve from '@rollup/plugin-node-resolve';
-import threads from 'rollup-plugin-threads';
+import resolve from '@webpack/plugin-node-resolve';
+import threads from 'threads-webpack-plugin';
 
 //Export
 export default {
@@ -62,7 +62,7 @@ export default {
       //Include files
       include: ['**/worker.js'],
 
-      //Rollup external configuration (Marks as external, helpful for Node runtimes)
+      //Webpack external configuration (Marks as external, helpful for Node runtimes)
       external: ['events'],
 
       //Child bundler plugins (Not reused; must be redefined if you want the same plugins)
