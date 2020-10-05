@@ -12,7 +12,7 @@
   "scripts": {
     "build": "rollup -c",
     "lint": "eslint .",
-    "test": "npm run build && cd tests && rollup -c && node dist/entry.js"
+    "test": "npm run build && cd tests && webpack -c && node dist/main.js"
   },
   "repository": {
     "type": "git",
@@ -44,7 +44,8 @@
     "rollup": "^2.28.2",
     "rollup-plugin-typescript2": "^0.27.3",
     "threads": "^1.6.3",
-    "typescript": "^4.0.3"
+    "typescript": "^4.0.3",
+    "webpack-cli": "^3.3.12"
   },
   "dependencies": {
     "tmp": "^0.2.1",

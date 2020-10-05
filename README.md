@@ -3,11 +3,11 @@
 [![tests](https://img.shields.io/github/workflow/status/Cloud-CNC/threads-webpack-plugin/Tests?label=tests)](https://github.com/Cloud-CNC/threads-webpack-plugin/actions)
 [![last commit](https://img.shields.io/github/last-commit/Cloud-CNC/threads-webpack-plugin)](https://github.com/Cloud-CNC/threads-webpack-plugin/commits/master)
 
-[ThreadsJS](https://threads.js.org) integration for [Webpack](https://webpack.js.org)
+[ThreadsJS](https://threads.js.org) integration for [Webpack](https://webpack.js.org). If you're using Rollup, you may want to check out [rollup-plugin-threads](https://github.com/cloud-cnc/rollup-plugin-threads) (Basically does the same thing as this plugin but for Rollup).
 
 # Features
 * Written in modern TypeScript
-* Uses Webpack for TS compilation
+* Uses Rollup for TS compilation
 * Thoroughly commented
 
 # Usage
@@ -45,31 +45,20 @@ expose(worker);
 
 ## Webpack Config
 ```Javascript
-//Imports
-import resolve from '@webpack/plugin-node-resolve';
-import threads from 'threads-webpack-plugin';
-
 //Export
-export default {
+module.exports = {
   //Point at your normal file (The plugin will take care of loading the worker)
-  input: 'src/index.js',
-  plugins: [
-    resolve(),
-    threads({
-      //Exclude files
-      exclude: ['**/exclude-me/worker.js'],
-
-      //Include files
-      include: ['**/worker.js'],
-
-      //Webpack external configuration (Marks as external, helpful for Node runtimes)
-      external: ['events'],
-
-      //Child bundler plugins (Not reused; must be redefined if you want the same plugins)
-      plugins: [
-        resolve()
-      ]
-    })
-  ]
+  entry: 'src/index.js',
+  module: {
+    rules: [
+      {
+        test: /worker\.js$/,
+        loader: 'threads-webpack-plugin',
+        options: {
+          //Webpack child bundler options
+        }
+      }
+    ]
+  }
 };
 ```
