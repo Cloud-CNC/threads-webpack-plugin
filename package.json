@@ -1,6 +1,6 @@
 {
   "name": "threads-webpack-plugin",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "ThreadsJS Webpack integration",
   "main": "dist/cjs/index.js",
   "module": "dist/es/index.js",
@@ -40,7 +40,6 @@
     "@typescript-eslint/eslint-plugin": "^4.3.0",
     "@typescript-eslint/parser": "^4.3.0",
     "eslint": "^7.10.0",
-    "loader-utils": "^2.0.0",
     "rollup": "^2.28.2",
     "rollup-plugin-typescript2": "^0.27.3",
     "threads": "^1.6.3",
@@ -48,6 +47,7 @@
     "webpack-cli": "^3.3.12"
   },
   "dependencies": {
+    "loader-utils": "^2.0.0",
     "tmp": "^0.2.1",
     "webpack": "^4.44.2"
   }
