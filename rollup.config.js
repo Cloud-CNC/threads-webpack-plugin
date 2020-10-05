@@ -8,7 +8,7 @@ import typescript from 'rollup-plugin-typescript2';
 //Export
 export default {
   external: [
-    'fs/promises',
+    'fs',
     'loader-utils',
     'path',
     'tmp',

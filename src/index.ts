@@ -5,7 +5,7 @@
 //Imports
 import {getOptions} from 'loader-utils';
 import {basename, dirname} from 'path';
-import {readFile, unlink} from 'fs/promises';
+import {readFileSync, unlinkSync} from 'fs';
 import {tmpNameSync} from 'tmp';
 import webpack from 'webpack';
 
@@ -58,10 +58,10 @@ export default async function (this: webpack.loader.LoaderContext)
   }
 
   //Read file
-  const code = await readFile(temp, 'utf8');
+  const code = readFileSync(temp, 'utf8');
 
   //Delete file
-  await unlink(temp);
+  unlinkSync(temp);
 
   //Format
   return `export default ${JSON.stringify(code)}`;
