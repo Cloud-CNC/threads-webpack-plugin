@@ -22,7 +22,7 @@
     "threads",
     "threadjs",
     "threads.js",
-    "rollup"
+    "webpack"
   ],
   "author": "Cloud-CNC",
   "license": "MIT",
