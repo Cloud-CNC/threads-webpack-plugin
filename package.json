@@ -1,6 +1,6 @@
 {
   "name": "threads-webpack-plugin",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "ThreadsJS Webpack integration",
   "main": "dist/cjs/index.js",
   "module": "dist/es/index.js",
