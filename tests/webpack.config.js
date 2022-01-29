@@ -1,9 +1,9 @@
 //Imports
-const {resolve} = require('path');
+const {join} = require('path');
 
 //Export
 module.exports = {
-  entry: resolve('entry.js'),
+  entry: join(__dirname, 'entry.js'),
   mode: 'none',
   target: 'node',
   externals: [
@@ -20,7 +20,7 @@ module.exports = {
     rules: [
       {
         test: /worker\.js$/,
-        loader: '../',
+        loader: join(__dirname, '..', 'dist', 'cjs.js'),
         options: {
           target: 'node'
         }
@@ -31,6 +31,6 @@ module.exports = {
     mainFields: ['main', 'module']
   },
   output: {
-    path: resolve('./dist')
+    path: join(__dirname, 'dist')
   }
 };

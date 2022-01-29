@@ -20,12 +20,12 @@ export default {
   ],
   output: [
     {
-      dir: 'dist/cjs',
       exports: 'default',
+      file: 'dist/cjs.js',
       format: 'cjs'
     },
     {
-      dir: 'dist/es',
+      file: 'dist/es.js',
       format: 'es'
     }
   ]

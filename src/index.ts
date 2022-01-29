@@ -53,7 +53,7 @@ export default async function (this: webpack.loader.LoaderContext)
   //Proxy errors
   catch (err)
   {
-    this.emitError(err);
+    this.emitError(err as Error);
     return;
   }
 
